@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg: #ffffff;
+  --color-surface: #f2f6fb;
+  --color-ink: #0f1115;
+  --color-accent: #0d2a56;
+  --color-accent-100: #e9f0fa;
+  --color-accent-200: #cfdeef;
+  --color-accent-600: #0a2045;
+  --color-accent-700: #071734;
+  --color-accent-800: #061529;
+  --color-sky: #2f6fb8;
+  --color-gold: #8a5a00;
+  --color-gold-tint: #fbf1d8;
+  --color-green: #0f6b4b;
+  --color-green-tint: #e6f3ec;
+  --color-clay: #b03e1c;
+  --color-clay-tint: #fbe9e2;
+
+  --font-sans: "Archivo", system-ui, sans-serif;
+  --font-arabic: "Noto Kufi Arabic", system-ui, sans-serif;
+}
+
+:root {
+  --color-divider: rgba(15, 17, 21, 0.22);
+}
+
+/* Custom rules are wrapped in Tailwind's own layers so that utility
+   classes (e.g. text-white on a Details link) keep winning the cascade
+   — unlayered CSS beats layered CSS regardless of specificity in v4. */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    margin: 0;
+  }
+
+  :lang(ar) {
+    font-family: var(--font-arabic);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    line-height: 1.12;
+    margin: 0;
+  }
+
+  a {
+    color: var(--color-accent);
+  }
+  a:hover {
+    color: var(--color-sky);
+  }
+
+  /* — RTL: isolate leaf text nodes so numbers, PNRs and Latin names keep their own direction — */
+  [dir='rtl'] :is(div, span, strong, td, th, p, label, button, a):not(:has(*)) {
+    unicode-bidi: plaintext;
+    text-align: right;
+  }
+  [dir='rtl'] td,
+  [dir='rtl'] th {
+    text-align: right;
+  }
+}
+
+@layer components {
+  /* — divider rule — */
+  .hr {
+    height: 2px;
+    border: 0;
+    margin: 16px 0;
+    background: var(--color-divider);
+  }
+
+  /* — buttons — */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--color-ink);
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 10px 16px;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-600);
+  }
+  .btn-secondary {
+    border-color: var(--color-divider);
+  }
+  .btn-secondary:hover {
+    background: var(--color-accent-100);
+  }
+  .btn-block {
+    width: 100%;
+    margin-top: 8px;
+    justify-content: flex-start;
+  }
+
+  /* — segmented tabs (mirrors the prototype's data-on state) — */
+  .seg-btn[aria-pressed='true'] {
+    background: var(--color-accent) !important;
+    color: #fff !important;
+    border-color: var(--color-accent) !important;
+  }
+  .seg-btn[aria-pressed='true'] svg {
+    stroke: #fff;
+  }
+  .seg-btn[aria-pressed='true'] .sub {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .hoverable:hover {
+    background: var(--color-accent-100);
+  }
+  .rowlink:hover {
+    background: #f7fafd;
+  }
+  .uline:hover {
+    text-decoration: underline;
+  }
+
+  /* — tags — */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    padding: 3px 10px;
+    white-space: nowrap;
+  }
+  .tag-neutral {
+    border: 1px solid var(--color-divider);
+    background: #fff;
+  }
+
+  /* — forms — */
+  .field > label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: rgba(15, 17, 21, 0.7);
+  }
+  .input {
+    width: 100%;
+    min-height: 36px;
+    padding: 6px 10px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--color-ink);
+    background: #fff;
+    border: 1px solid var(--color-divider);
+    border-radius: 0;
+  }
+  .input:hover {
+    border-color: rgba(15, 17, 21, 0.45);
+  }
+  .input:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 0;
+  }
+  .radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .radio input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+  .radio .dot {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-divider);
+  }
+  .radio:hover .dot {
+    border-color: var(--color-accent);
+  }
+  .radio input:checked + .dot {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    box-shadow: inset 0 0 0 4px #fff;
+  }
+
+  /* — tables — */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--color-divider);
+    vertical-align: top;
+  }
+}
