@@ -83,7 +83,10 @@ export default async function FlightsPage({
       )}
 
       {!errorMessage && results.length > 0 && (
-        <FlightResultsList results={results} searchQuery={{ cabinClass: query.cabinClass }} />
+        <FlightResultsList
+          results={results}
+          searchQuery={{ cabinClass: query.cabinClass, origin: query.origin, destination: query.destination }}
+        />
       )}
     </main>
   );

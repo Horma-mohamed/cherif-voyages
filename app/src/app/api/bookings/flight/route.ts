@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createHoldOrder, DuffelPassengerInput } from '@/lib/duffel';
+import { getCurrentCustomer } from '@/lib/auth';
+import { resolveCustomer } from '@/lib/customers';
 
 interface TravelerInput {
   offerPassengerId: string;
@@ -39,16 +41,16 @@ export async function POST(request: NextRequest) {
   }
 
   const primary = body.travelers[0];
+  const sessionCustomer = await getCurrentCustomer();
 
   const booking = await prisma.$transaction(async (tx) => {
-    const customer = await tx.customer.create({
-      data: {
-        firstName: primary.firstName,
-        lastName: primary.lastName,
-        email: body.contact!.email,
-        phone: body.contact!.phone,
-        nationality: primary.nationality
-      }
+    const customer = await resolveCustomer(tx, {
+      sessionCustomerId: sessionCustomer?.id ?? null,
+      firstName: primary.firstName,
+      lastName: primary.lastName,
+      email: body.contact!.email,
+      phone: body.contact!.phone,
+      nationality: primary.nationality
     });
 
     const created = await tx.booking.create({

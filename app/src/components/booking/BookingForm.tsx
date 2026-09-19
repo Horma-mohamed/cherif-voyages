@@ -25,6 +25,7 @@ export type BookingContext =
       priceMru: number;
       priceEur: number;
     }
+  | { kind: 'hotel'; name: string; priceMru: string; priceEur: string }
   | { kind: 'mock' };
 
 function Field({
@@ -87,9 +88,12 @@ export default function BookingForm({ context }: { context: BookingContext }) {
   if (context.kind === 'mock') {
     return <MockBookingForm />;
   }
+  if (context.kind === 'hotel') {
+    return <HotelBookingView context={context} />;
+  }
 
   async function handleSubmit() {
-    if (context.kind === 'mock') return;
+    if (context.kind === 'mock' || context.kind === 'hotel') return;
 
     setSubmitting(true);
     setError(null);
@@ -265,6 +269,54 @@ export default function BookingForm({ context }: { context: BookingContext }) {
             {submitting ? t('summary.submitting') : t('summary.pay')}
           </button>
           <p className="mt-2.5 text-[11px] text-[var(--color-green)]">{t('summary.note')}</p>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+function HotelBookingView({ context }: { context: { name: string; priceMru: string; priceEur: string } }) {
+  const t = useTranslations('Booking');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+
+  return (
+    <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,320px)]">
+      <form onSubmit={(e) => e.preventDefault()}>
+        <h2 className="mb-4 text-[24px]">{t('travelerTitle')}</h2>
+        <div className="mb-5.5 grid gap-3.5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+          <Field label={t('fields.firstName')} placeholder={t('fields.firstNamePh')} value={firstName} onChange={setFirstName} />
+          <Field label={t('fields.lastName')} placeholder={t('fields.lastNamePh')} value={lastName} onChange={setLastName} />
+        </div>
+        <hr className="hr" />
+        <h3 className="mb-3.5 text-[19px]">{t('contactTitle')}</h3>
+        <div className="mb-5.5 grid gap-3.5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+          <Field label={t('phone')} placeholder={t('phonePh')} value={phone} onChange={setPhone} />
+          <Field label={t('email')} placeholder={t('emailPh')} value={email} onChange={setEmail} type="email" />
+        </div>
+      </form>
+
+      <aside className="sticky top-[90px] border-2 border-[var(--color-divider)]">
+        <div className="border-b-2 border-[var(--color-divider)] px-4.5 py-4">
+          <div className="font-sans text-[16px] font-extrabold">{t('summary.title')}</div>
+          <div className="text-[13px] text-[rgba(15,17,21,0.6)]">{context.name}</div>
+        </div>
+        <div className="px-4.5 py-4">
+          <div className="flex items-baseline justify-between py-1">
+            <span className="font-sans text-[15px] font-extrabold">{t('summary.total')}</span>
+            <span className="font-sans text-[22px] font-extrabold text-[var(--color-accent)]">{context.priceMru}</span>
+          </div>
+          <div className="mb-3.5 text-end text-[12px] text-[rgba(15,17,21,0.5)]">{context.priceEur}</div>
+          <button
+            type="button"
+            disabled
+            className="w-full cursor-not-allowed border-0 bg-[var(--color-accent)] p-3.5 text-start font-sans text-[14px] font-extrabold text-white opacity-60"
+          >
+            {t('summary.pay')}
+          </button>
+          <p className="mt-2.5 text-[11px] text-[var(--color-clay)]">{t('hotelComingSoon')}</p>
         </div>
       </aside>
     </div>

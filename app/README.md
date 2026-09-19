@@ -28,6 +28,37 @@ Copy `.env.example` to `.env` and fill in:
   rate (Duffel doesn't settle in MRU) — replace with a real FX source
   before relying on displayed MRU prices.
 
+## Accounts & the two dashboards
+
+- **Customer account** (`/account`) — sign up at `/account/login` with any
+  email/password. Signing up with the same email used in an earlier guest
+  booking (flight or package checkout) links that booking to the new
+  account automatically, since both resolve to the same `Customer` row by
+  email. Covers all 6 tabs from the design: trips, booking history, Omra
+  group progress, travelers & passport-expiry warnings, price alerts
+  (created from the "Alerte prix" button on `/flights`), and a message
+  thread with the agency.
+
+- **Agency back-office** (`/admin`) — `npm run db:seed` creates one admin
+  account: `admin@cherifvoyages.mr` / `ChangeMe123!`. **Change this
+  password before deploying anywhere real** (there's no self-service admin
+  signup by design — create further staff accounts directly in the
+  database). Covers KPIs computed from real booking data, a bookings table
+  with a working "mark as paid / confirm" reconciliation action (this is
+  the piece that actually moves a `Payment` from `PENDING` to `PAID`),
+  Omra/Hajj group rosters, a payments ledger, a customer list, and a
+  package-catalogue editor.
+
+  Both dashboards' data is 100% real — no fabricated agent-performance
+  stats or a fake visa pipeline, because we have no data model backing
+  those. If you want them, that's new schema, not a UI tweak.
+
+- Sessions are custom (scrypt-hashed passwords, a `Session` table, httpOnly
+  cookies) — no NextAuth/Clerk/etc. Customer and admin sessions use
+  separate cookies, so a browser can be signed into both at once; the main
+  site header always reflects the *customer* session regardless of
+  whether an admin session is also active.
+
 ## Getting Started
 
 First, run the development server:

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getCurrentCustomer } from '@/lib/auth';
+import { resolveCustomer } from '@/lib/customers';
 
 interface TravelerInput {
   firstName: string;
@@ -29,6 +31,7 @@ export async function POST(request: NextRequest) {
 
   const travelersCount = body.travelers.length;
   const primary = body.travelers[0];
+  const sessionCustomer = await getCurrentCustomer();
 
   try {
     const booking = await prisma.$transaction(async (tx) => {
@@ -48,14 +51,13 @@ export async function POST(request: NextRequest) {
       const totalAmountMru = pkg.priceMru * travelersCount;
       const totalAmountEur = pkg.priceEur * travelersCount;
 
-      const customer = await tx.customer.create({
-        data: {
-          firstName: primary.firstName,
-          lastName: primary.lastName,
-          email: body.contact!.email,
-          phone: body.contact!.phone,
-          nationality: primary.nationality
-        }
+      const customer = await resolveCustomer(tx, {
+        sessionCustomerId: sessionCustomer?.id ?? null,
+        firstName: primary.firstName,
+        lastName: primary.lastName,
+        email: body.contact!.email,
+        phone: body.contact!.phone,
+        nationality: primary.nationality
       });
 
       return tx.booking.create({

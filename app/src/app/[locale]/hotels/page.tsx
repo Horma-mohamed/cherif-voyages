@@ -80,7 +80,7 @@ export default async function HotelsPage() {
                     {hotel.priceEur} {t('perNight')}
                   </div>
                   <Link
-                    href="/booking"
+                    href={`/booking?type=hotel&name=${encodeURIComponent(hotel.name)}&priceMru=${encodeURIComponent(hotel.priceMru)}&priceEur=${encodeURIComponent(hotel.priceEur)}`}
                     className="inline-block cursor-pointer border-0 bg-[var(--color-accent)] px-4.5 py-2.5 font-sans text-[13px] font-extrabold text-white no-underline"
                   >
                     {t('viewOffer')}

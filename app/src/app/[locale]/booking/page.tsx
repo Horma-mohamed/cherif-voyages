@@ -44,6 +44,13 @@ export default async function BookingPage({
       priceMru: Number(params.priceMru ?? '0'),
       priceEur: Number(params.priceEur ?? '0')
     };
+  } else if (params.type === 'hotel' && params.name) {
+    context = {
+      kind: 'hotel',
+      name: params.name,
+      priceMru: params.priceMru ?? '',
+      priceEur: params.priceEur ?? ''
+    };
   }
 
   return (

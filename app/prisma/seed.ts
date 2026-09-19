@@ -1,6 +1,23 @@
 import { PrismaClient } from '@prisma/client';
+import { randomBytes, scrypt } from 'crypto';
 
 const prisma = new PrismaClient();
+
+// Duplicated from src/lib/auth.ts on purpose — this script runs standalone
+// via tsx, outside the Next.js server runtime, so it avoids importing
+// anything that touches next/headers.
+function hashPassword(password: string): Promise<string> {
+  const salt = randomBytes(16);
+  return new Promise((resolve, reject) => {
+    scrypt(password, salt, 64, (err, derivedKey) => {
+      if (err) reject(err);
+      else resolve(`${salt.toString('hex')}:${derivedKey.toString('hex')}`);
+    });
+  });
+}
+
+const ADMIN_EMAIL = 'admin@cherifvoyages.mr';
+const ADMIN_SEED_PASSWORD = 'ChangeMe123!';
 
 const packages = [
   {
@@ -104,22 +121,38 @@ const packages = [
 
 async function main() {
   for (const pkg of packages) {
-    const { programSteps, inclusions, ...data } = pkg;
+    const { programSteps, inclusions, seatsBooked: _seedSeatsBooked, ...contentData } = pkg;
+    // seatsBooked is deliberately excluded from `update` — it's live
+    // operational state driven by real bookings, and re-running this seed
+    // (e.g. to tweak copy or add a package) must not reset it. Only a
+    // brand-new package starts from the seed literal.
     await prisma.package.upsert({
       where: { slug: pkg.slug },
       update: {
-        ...data,
+        ...contentData,
         programSteps: { deleteMany: {}, create: programSteps },
         inclusions: { deleteMany: {}, create: inclusions }
       },
       create: {
-        ...data,
+        ...contentData,
+        seatsBooked: _seedSeatsBooked,
         programSteps: { create: programSteps },
         inclusions: { create: inclusions }
       }
     });
   }
   console.log(`Seeded ${packages.length} packages.`);
+
+  await prisma.admin.upsert({
+    where: { email: ADMIN_EMAIL },
+    update: {},
+    create: {
+      email: ADMIN_EMAIL,
+      name: 'Agence Cherif Voyages',
+      passwordHash: await hashPassword(ADMIN_SEED_PASSWORD)
+    }
+  });
+  console.log(`Seeded admin account (${ADMIN_EMAIL} / ${ADMIN_SEED_PASSWORD} — change this).`);
 }
 
 main()

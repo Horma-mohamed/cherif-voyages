@@ -6,10 +6,11 @@ import { getPackageBySlug } from '@/lib/packages';
 
 export default async function PackagePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [pkg, locale, t] = await Promise.all([
+  const [pkg, locale, t, tc] = await Promise.all([
     getPackageBySlug(slug),
     getLocale(),
-    getTranslations('Package')
+    getTranslations('Package'),
+    getTranslations('Common')
   ]);
 
   if (!pkg) notFound();
@@ -99,7 +100,9 @@ export default async function PackagePage({ params }: { params: Promise<{ slug: 
             >
               {t('sidebar.reserve')}
             </Link>
-            <button className="btn btn-secondary btn-block">{t('sidebar.talkToAdvisor')}</button>
+            <a href={`tel:${tc('footer.phone').replace(/\s/g, '')}`} className="btn btn-secondary btn-block no-underline">
+              {t('sidebar.talkToAdvisor')}
+            </a>
           </div>
         </aside>
       </div>

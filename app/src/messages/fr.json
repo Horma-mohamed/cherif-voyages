@@ -236,9 +236,7 @@
       "priceTitle": "Prix max",
       "priceMin": "9 000",
       "priceMax": "60 000 MRU",
-      "airlinesTitle": "Compagnies",
-      "baggageTitle": "Bagages",
-      "baggage23": "Bagage 23 kg inclus"
+      "airlinesTitle": "Compagnies"
     },
     "sort": {
       "best": "Recommandé",
@@ -247,7 +245,8 @@
       "cheapSub": "28 900 · 11 h 05",
       "fast": "Le plus rapide",
       "fastSub": "32 000 · 5 h 10",
-      "priceAlert": "Alerte prix"
+      "priceAlert": "Alerte prix",
+      "priceAlertSaved": "Alerte enregistrée"
     },
     "direct": "direct",
     "stop": "1 escale",
@@ -437,6 +436,171 @@
       "title": "Réservation enregistrée",
       "reference": "Référence :",
       "duffelPending": "Billet en attente de confirmation auprès de la compagnie — notre équipe vous contactera."
+    },
+    "hotelComingSoon": "La réservation d’hôtel en ligne arrive bientôt — contactez l’agence pour finaliser cette offre."
+  },
+  "Auth": {
+    "loginTab": "Se connecter",
+    "signupTab": "Créer un compte",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "phone": "Téléphone",
+    "loginSubmit": "Se connecter",
+    "signupSubmit": "Créer mon compte",
+    "logout": "Se déconnecter",
+    "errors": {
+      "missing_fields": "Merci de remplir tous les champs.",
+      "password_too_short": "Le mot de passe doit contenir au moins 8 caractères.",
+      "email_taken": "Un compte existe déjà avec cet e-mail.",
+      "invalid_credentials": "E-mail ou mot de passe incorrect."
+    },
+    "adminTitle": "Back-office — connexion",
+    "customerTitle": "Mon compte"
+  },
+  "Account": {
+    "tabs": {
+      "trips": "Mes voyages",
+      "bookings": "Réservations",
+      "omra": "Groupe Omra",
+      "pax": "Voyageurs & documents",
+      "alerts": "Alertes prix",
+      "msg": "Messages"
+    },
+    "trips": {
+      "nextDeparture": "Prochain départ",
+      "noDeparture": "Aucun départ prévu",
+      "walletBalance": "Solde portefeuille",
+      "loyaltyPoints": "Points fidélité",
+      "documentsToRenew": "Documents à renouveler",
+      "none": "Aucun",
+      "upcomingTitle": "Voyage à venir",
+      "noUpcoming": "Vous n’avez pas de voyage à venir pour le moment.",
+      "reference": "Réf.",
+      "paid": "Payé",
+      "omraGroupTitle": "Groupe Omra / Hajj",
+      "viewGroup": "Voir le groupe",
+      "seatsFilled": "places du groupe occupées"
+    },
+    "bookings": {
+      "title": "Historique des réservations",
+      "count": "réservation(s)",
+      "reference": "Référence",
+      "type": "Type",
+      "routeOrStay": "Trajet / séjour",
+      "date": "Date",
+      "amount": "Montant",
+      "status": "Statut",
+      "none": "Vous n’avez pas encore de réservation.",
+      "typeFlight": "Vol",
+      "typePackage": "Omra / Hajj"
+    },
+    "omra": {
+      "title": "Groupe Omra / Hajj",
+      "departure": "Départ",
+      "seats": "Places du groupe",
+      "travelers": "Pèlerins inscrits (cette réservation)",
+      "payment": "Paiement",
+      "none": "Aucun groupe Omra ou Hajj actif pour le moment."
+    },
+    "pax": {
+      "title": "Voyageurs enregistrés",
+      "passport": "Passeport",
+      "expires": "Expire",
+      "nationality": "Nationalité",
+      "none": "Aucun voyageur enregistré pour le moment — les voyageurs apparaissent ici après une réservation.",
+      "warning": "à renouveler bientôt"
+    },
+    "alerts": {
+      "title": "Alertes prix",
+      "none": "Aucune alerte enregistrée. Créez-en une depuis la page Vols.",
+      "active": "Alerte active",
+      "delete": "Supprimer",
+      "target": "Prix cible"
+    },
+    "msg": {
+      "title": "Messages",
+      "placeholder": "Écrire un message…",
+      "send": "Envoyer",
+      "none": "Aucun message pour le moment.",
+      "you": "Vous",
+      "agency": "Agence"
+    }
+  },
+  "Admin": {
+    "logout": "Se déconnecter",
+    "tabs": {
+      "overview": "Tableau de bord",
+      "bookings": "Réservations & émission",
+      "groups": "Groupes Omra / Hajj",
+      "payments": "Paiements",
+      "crm": "Clients",
+      "catalogue": "Catalogue"
+    },
+    "overview": {
+      "salesThisMonth": "Ventes du mois",
+      "ticketsIssued": "Billets émis",
+      "pendingPayments": "Paiements en attente",
+      "pilgrims": "Pèlerins inscrits",
+      "weeklyRevenue": "Chiffre d’affaires hebdomadaire (MRU)",
+      "productMix": "Répartition par produit",
+      "flight": "Billetterie",
+      "package": "Omra / Hajj"
+    },
+    "bookings": {
+      "title": "Réservations",
+      "reference": "Réf.",
+      "customer": "Client",
+      "product": "Produit",
+      "date": "Date",
+      "amount": "Montant",
+      "status": "Statut",
+      "actions": "Actions",
+      "markPaid": "Marquer payé",
+      "cancel": "Annuler",
+      "none": "Aucune réservation."
+    },
+    "groups": {
+      "title": "Groupes Omra & Hajj",
+      "seats": "places",
+      "pilgrim": "Pèlerin",
+      "passport": "Passeport",
+      "payment": "Statut paiement",
+      "none": "Aucun pèlerin inscrit pour ce groupe.",
+      "departure": "Départ"
+    },
+    "payments": {
+      "title": "Paiements",
+      "date": "Date",
+      "method": "Moyen",
+      "reference": "Référence",
+      "customer": "Client",
+      "amount": "Montant",
+      "status": "Statut",
+      "markPaid": "Marquer payé",
+      "none": "Aucun paiement."
+    },
+    "crm": {
+      "title": "Clients",
+      "search": "Rechercher un client…",
+      "customer": "Client",
+      "bookings": "Dossiers",
+      "totalValue": "Valeur totale",
+      "none": "Aucun client."
+    },
+    "catalogue": {
+      "title": "Catalogue des forfaits",
+      "name": "Forfait",
+      "period": "Départ",
+      "price": "Prix",
+      "seats": "Places",
+      "edit": "Éditer",
+      "save": "Enregistrer",
+      "priceMru": "Prix MRU",
+      "priceEur": "Prix EUR",
+      "seatsTotal": "Places totales",
+      "depositPercent": "Acompte %"
     }
   }
 }

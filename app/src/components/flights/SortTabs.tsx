@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/navigation';
 import { BellIcon } from '@/components/Icons';
 
 export type SortKey = 'best' | 'cheap' | 'fast';
@@ -9,20 +11,44 @@ export default function SortTabs({
   sort,
   onChange,
   cheapestSub,
-  fastestSub
+  fastestSub,
+  origin,
+  destination,
+  cheapestPriceMru
 }: {
   sort: SortKey;
   onChange: (sort: SortKey) => void;
   cheapestSub: string;
   fastestSub: string;
+  origin: string;
+  destination: string;
+  cheapestPriceMru: number | null;
 }) {
   const t = useTranslations('Flights.sort');
+  const router = useRouter();
+  const [alertState, setAlertState] = useState<'idle' | 'saving' | 'saved'>('idle');
 
   const tabs: { key: SortKey; label: string; sub: string }[] = [
     { key: 'best', label: t('best'), sub: '' },
     { key: 'cheap', label: t('cheap'), sub: cheapestSub },
     { key: 'fast', label: t('fast'), sub: fastestSub }
   ];
+
+  async function createAlert() {
+    if (!cheapestPriceMru || alertState !== 'idle') return;
+    setAlertState('saving');
+    const res = await fetch('/api/price-alerts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ origin, destination, targetPriceMru: cheapestPriceMru })
+    });
+    if (res.status === 401) {
+      router.push('/account/login');
+      setAlertState('idle');
+      return;
+    }
+    setAlertState(res.ok ? 'saved' : 'idle');
+  }
 
   return (
     <div className="mb-3.5 flex flex-wrap items-center justify-between gap-3">
@@ -41,9 +67,9 @@ export default function SortTabs({
           </button>
         ))}
       </div>
-      <button className="btn btn-secondary gap-2">
+      <button onClick={createAlert} disabled={alertState !== 'idle'} className="btn btn-secondary gap-2 disabled:opacity-60">
         <BellIcon />
-        {t('priceAlert')}
+        {alertState === 'saved' ? t('priceAlertSaved') : t('priceAlert')}
       </button>
     </div>
   );

@@ -1,9 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import LanguageSwitcher from './LanguageSwitcher';
+import { getCurrentCustomer } from '@/lib/auth';
 
 export default async function Header() {
-  const t = await getTranslations('Common');
+  const [t, customer] = await Promise.all([getTranslations('Common'), getCurrentCustomer()]);
 
   const navLinks = [
     { href: '/flights', label: t('nav.flights') },
@@ -35,7 +36,9 @@ export default async function Header() {
       <div className="flex items-center gap-2.5">
         <LanguageSwitcher />
         <span className="text-[12px] text-[rgba(15,17,21,0.55)]">{t('currency')}</span>
-        <button className="btn btn-secondary text-[13px]">{t('account')}</button>
+        <Link href={customer ? '/account' : '/account/login'} className="btn btn-secondary text-[13px] no-underline">
+          {customer ? customer.firstName : t('account')}
+        </Link>
       </div>
     </header>
   );

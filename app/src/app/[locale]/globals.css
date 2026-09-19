@@ -134,6 +134,15 @@
   .hoverable:hover {
     background: var(--color-accent-100);
   }
+  .tab-btn {
+    border-bottom: 3px solid transparent;
+    color: rgba(15, 17, 21, 0.6);
+  }
+  .tab-btn[aria-pressed='true'] {
+    color: var(--color-accent) !important;
+    border-bottom-color: var(--color-accent) !important;
+    font-weight: 800 !important;
+  }
   .rowlink:hover {
     background: #f7fafd;
   }
