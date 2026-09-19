@@ -1,13 +1,19 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-export default function PaymentMethodSelector() {
-  const t = useTranslations('Booking.paymentMethods');
-  const [method, setMethod] = useState<'card' | 'bankily' | 'masrvi' | 'agency'>('card');
+export type PaymentMethod = 'card' | 'bankily' | 'masrvi' | 'agency';
 
-  const methods: { key: 'card' | 'bankily' | 'masrvi' | 'agency'; label: string }[] = [
+export default function PaymentMethodSelector({
+  value,
+  onChange
+}: {
+  value: PaymentMethod;
+  onChange: (method: PaymentMethod) => void;
+}) {
+  const t = useTranslations('Booking.paymentMethods');
+
+  const methods: { key: PaymentMethod; label: string }[] = [
     { key: 'card', label: t('card') },
     { key: 'bankily', label: t('bankily') },
     { key: 'masrvi', label: t('masrvi') },
@@ -20,8 +26,8 @@ export default function PaymentMethodSelector() {
         <button
           key={key}
           type="button"
-          onClick={() => setMethod(key)}
-          aria-pressed={method === key}
+          onClick={() => onChange(key)}
+          aria-pressed={value === key}
           className="seg-btn cursor-pointer border border-[var(--color-divider)] bg-white px-4.5 py-2.75 font-sans text-[13px] font-semibold text-[var(--color-ink)]"
         >
           {label}

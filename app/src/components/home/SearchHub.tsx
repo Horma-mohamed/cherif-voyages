@@ -8,6 +8,11 @@ import { FlightIcon, HotelIcon, OmraIcon, HajjIcon, CarIcon, VisaIcon } from '@/
 type Mode = 'flights' | 'hotels' | 'omra' | 'hajj' | 'cars' | 'visa';
 type Trip = 'rt' | 'ow' | 'mc';
 
+// Matches the fixed NKC → JED / 12–26 mars search shown above — the fields
+// aren't freely editable yet, so this stays in sync with what's displayed.
+const FLIGHT_SEARCH_PATH =
+  '/flights?origin=NKC&destination=JED&departureDate=2027-03-12&returnDate=2027-03-26&adults=1&cabinClass=economy';
+
 const modeTabs: { key: Mode; Icon: () => React.JSX.Element }[] = [
   { key: 'flights', Icon: FlightIcon },
   { key: 'hotels', Icon: HotelIcon },
@@ -110,7 +115,7 @@ export default function SearchHub() {
               <Field label={t('flightSearch.to')} value={t('flightSearch.toCity')} />
               <Field label={t('flightSearch.dates')} value={t('flightSearch.datesValue')} />
               <button
-                onClick={() => router.push('/flights')}
+                onClick={() => router.push(FLIGHT_SEARCH_PATH)}
                 className="min-h-[52px] flex-none cursor-pointer border-0 bg-[var(--color-accent)] px-6 font-sans text-[15px] font-extrabold text-white"
               >
                 {tc('search')}
@@ -123,7 +128,7 @@ export default function SearchHub() {
               <Chip>{t('flightSearch.chips.nearby')}</Chip>
               <Chip>{t('flightSearch.chips.preferred')}</Chip>
               <button
-                onClick={() => router.push('/flights')}
+                onClick={() => router.push(FLIGHT_SEARCH_PATH)}
                 className="uline ms-1 cursor-pointer border-0 bg-transparent p-0 text-[13px] text-[var(--color-gold)]"
               >
                 {t('flightSearch.cheapestMonth')}

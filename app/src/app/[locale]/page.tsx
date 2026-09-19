@@ -1,25 +1,28 @@
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import SearchHub from '@/components/home/SearchHub';
 import FaqAccordion from '@/components/home/FaqAccordion';
 import Placeholder from '@/components/Placeholder';
+import { listPackages } from '@/lib/packages';
 
 const statRules = ['var(--color-gold)', 'var(--color-green)', 'var(--color-sky)', 'var(--color-clay)'];
 
+function destinationCode(id: string): string {
+  return id.replace('dest-', '').toUpperCase();
+}
+
 export default async function HomePage() {
-  const t = await getTranslations('Home');
-  const tc = await getTranslations('Common');
+  const [t, tc, locale, packages] = await Promise.all([
+    getTranslations('Home'),
+    getTranslations('Common'),
+    getLocale(),
+    listPackages()
+  ]);
+  const isAr = locale === 'ar';
   const destinations = t.raw('destinations') as {
     id: string;
     city: string;
     duration: string;
-    priceMru: string;
-    priceEur: string;
-  }[];
-  const packages = t.raw('packages') as {
-    kicker: string;
-    title: string;
-    description: string;
     priceMru: string;
     priceEur: string;
   }[];
@@ -71,7 +74,7 @@ export default async function HomePage() {
           {destinations.map((d) => (
             <Link
               key={d.id}
-              href="/flights"
+              href={`/flights?origin=NKC&destination=${destinationCode(d.id)}&departureDate=2027-03-12&adults=1&cabinClass=economy`}
               className="rowlink block bg-white text-inherit no-underline"
             >
               <div className="h-[140px]">
@@ -102,16 +105,20 @@ export default async function HomePage() {
             style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
           >
             {packages.map((pkg, i) => (
-              <div key={i} className="flex flex-col gap-2 bg-[var(--color-accent)] px-5 py-[22px]">
-                <div className="text-[10px] uppercase tracking-[0.11em] text-[#8fb4e0]">{pkg.kicker}</div>
-                <div className="font-sans text-[22px] font-extrabold">{pkg.title}</div>
-                <p className="m-0 flex-1 text-[13px] text-white/72">{pkg.description}</p>
-                <div className="font-sans text-[22px] font-extrabold">{pkg.priceMru}</div>
+              <div key={pkg.slug} className="flex flex-col gap-2 bg-[var(--color-accent)] px-5 py-[22px]">
+                <div className="text-[10px] uppercase tracking-[0.11em] text-[#8fb4e0]">
+                  {isAr ? pkg.kickerAr : pkg.kickerFr}
+                </div>
+                <div className="font-sans text-[22px] font-extrabold">{isAr ? pkg.titleAr : pkg.titleFr}</div>
+                <p className="m-0 flex-1 text-[13px] text-white/72">
+                  {isAr ? pkg.descriptionAr : pkg.descriptionFr}
+                </p>
+                <div className="font-sans text-[22px] font-extrabold">{pkg.priceMru.toLocaleString('fr-FR')} MRU</div>
                 <div className="-mt-1 text-[12px] text-white/60">
-                  {pkg.priceEur} {tc('perPerson')}
+                  {pkg.priceEur.toLocaleString('fr-FR')} € {tc('perPerson')}
                 </div>
                 <Link
-                  href="/packages/omra-ramadan"
+                  href={`/packages/${pkg.slug}`}
                   className={`mt-1.5 cursor-pointer px-3.5 py-2.5 text-start font-sans text-[13px] font-extrabold no-underline ${
                     i === 1 ? 'bg-white text-[var(--color-accent)]' : 'border border-white bg-transparent text-white'
                   }`}

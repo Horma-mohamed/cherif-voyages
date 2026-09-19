@@ -22,9 +22,18 @@
     "footer": {
       "address": "Avenue Gamal Abdel Nasser, Nouakchott — Mauritanie. Agence IATA.",
       "servicesTitle": "Services",
-      "services": ["Billetterie internationale", "Réservation d'hôtels", "Omra et Hajj", "Assistance visa"],
+      "services": [
+        "Billetterie internationale",
+        "Réservation d'hôtels",
+        "Omra et Hajj",
+        "Assistance visa"
+      ],
       "agencyTitle": "Agence",
-      "agencyLinks": ["À propos", "Nos bureaux", "Conditions générales"],
+      "agencyLinks": [
+        "À propos",
+        "Nos bureaux",
+        "Conditions générales"
+      ],
       "contactTitle": "Contact",
       "phone": "+222 45 25 00 00",
       "email": "contact@cherifvoyages.mr",
@@ -47,8 +56,16 @@
       "tripRoundTrip": "Aller-retour",
       "tripOneWay": "Aller simple",
       "tripMulti": "Multi-destinations",
-      "travelerClass": ["1 adulte · Économie", "2 adultes · Économie", "1 adulte · Affaires"],
-      "bags": ["0 bagage", "1 bagage 23 kg", "2 bagages 23 kg"],
+      "travelerClass": [
+        "1 adulte · Économie",
+        "2 adultes · Économie",
+        "1 adulte · Affaires"
+      ],
+      "bags": [
+        "0 bagage",
+        "1 bagage 23 kg",
+        "2 bagages 23 kg"
+      ],
       "from": "De",
       "to": "Vers",
       "fromCity": "Nouakchott (NKC)",
@@ -99,56 +116,102 @@
       "datesValue": "12 mars — 19 mars"
     },
     "stats": [
-      { "value": "41", "label": "compagnies comparées" },
-      { "value": "IATA", "label": "agence agréée depuis 2009" },
-      { "value": "Bankily", "label": "Masrvi, Sedad et carte bancaire" },
-      { "value": "24/7", "label": "assistance à Nouakchott" }
+      {
+        "value": "41",
+        "label": "compagnies comparées"
+      },
+      {
+        "value": "IATA",
+        "label": "agence agréée depuis 2009"
+      },
+      {
+        "value": "Bankily",
+        "label": "Masrvi, Sedad et carte bancaire"
+      },
+      {
+        "value": "24/7",
+        "label": "assistance à Nouakchott"
+      }
     ],
     "destinationsTitle": "Destinations au départ de Nouakchott",
     "destinations": [
-      { "id": "dest-jed", "city": "Djeddah", "duration": "Direct · 5 h 10", "priceMru": "32 000 MRU", "priceEur": "800 €" },
-      { "id": "dest-cmn", "city": "Casablanca", "duration": "Direct · 2 h 45", "priceMru": "18 600 MRU", "priceEur": "465 €" },
-      { "id": "dest-dss", "city": "Dakar", "duration": "Direct · 1 h 20", "priceMru": "9 800 MRU", "priceEur": "245 €" },
-      { "id": "dest-ist", "city": "Istanbul", "duration": "1 escale · 9 h 30", "priceMru": "22 900 MRU", "priceEur": "573 €" },
-      { "id": "dest-cdg", "city": "Paris", "duration": "Direct · 5 h 35", "priceMru": "26 400 MRU", "priceEur": "660 €" }
+      {
+        "id": "dest-jed",
+        "city": "Djeddah",
+        "duration": "Direct · 5 h 10",
+        "priceMru": "32 000 MRU",
+        "priceEur": "800 €"
+      },
+      {
+        "id": "dest-cmn",
+        "city": "Casablanca",
+        "duration": "Direct · 2 h 45",
+        "priceMru": "18 600 MRU",
+        "priceEur": "465 €"
+      },
+      {
+        "id": "dest-dss",
+        "city": "Dakar",
+        "duration": "Direct · 1 h 20",
+        "priceMru": "9 800 MRU",
+        "priceEur": "245 €"
+      },
+      {
+        "id": "dest-ist",
+        "city": "Istanbul",
+        "duration": "1 escale · 9 h 30",
+        "priceMru": "22 900 MRU",
+        "priceEur": "573 €"
+      },
+      {
+        "id": "dest-cdg",
+        "city": "Paris",
+        "duration": "Direct · 5 h 35",
+        "priceMru": "26 400 MRU",
+        "priceEur": "660 €"
+      }
     ],
     "packagesTitle": "Forfaits Omra & Hajj 1448",
     "packagesFull": "Programme complet",
-    "packages": [
-      {
-        "kicker": "Chaabane · 12 jours",
-        "title": "Omra Essentielle",
-        "description": "Hôtel 3★ à 800 m du Haram, transferts, visa et accompagnement.",
-        "priceMru": "96 000 MRU",
-        "priceEur": "2 400 €"
-      },
-      {
-        "kicker": "Ramadan · 15 jours",
-        "title": "Omra Ramadan",
-        "description": "Hôtel 4★ vue Haram, pension complète, 10 derniers jours inclus.",
-        "priceMru": "128 000 MRU",
-        "priceEur": "3 200 €"
-      },
-      {
-        "kicker": "Hajj 1448 · 30 jours",
-        "title": "Hajj complet",
-        "description": "Quota officiel, camp Mina climatisé, encadrement religieux.",
-        "priceMru": "240 000 MRU",
-        "priceEur": "6 000 €"
-      }
-    ],
     "exploreTitle": "Commencez votre recherche",
     "exploreSubtitle": "Vols, hôtels et forfaits par destination.",
     "explore": [
-      { "city": "Djeddah", "tags": "VOLS · HÔTELS · OMRA" },
-      { "city": "Médine", "tags": "VOLS · HÔTELS · OMRA" },
-      { "city": "Casablanca", "tags": "VOLS · HÔTELS" },
-      { "city": "Dakar", "tags": "VOLS · HÔTELS" },
-      { "city": "Paris", "tags": "VOLS · HÔTELS · VISA" },
-      { "city": "Istanbul", "tags": "VOLS · HÔTELS · VISA" },
-      { "city": "Dubaï", "tags": "VOLS · HÔTELS" },
-      { "city": "Tunis", "tags": "VOLS · HÔTELS" },
-      { "city": "Nouadhibou", "tags": "VOLS" }
+      {
+        "city": "Djeddah",
+        "tags": "VOLS · HÔTELS · OMRA"
+      },
+      {
+        "city": "Médine",
+        "tags": "VOLS · HÔTELS · OMRA"
+      },
+      {
+        "city": "Casablanca",
+        "tags": "VOLS · HÔTELS"
+      },
+      {
+        "city": "Dakar",
+        "tags": "VOLS · HÔTELS"
+      },
+      {
+        "city": "Paris",
+        "tags": "VOLS · HÔTELS · VISA"
+      },
+      {
+        "city": "Istanbul",
+        "tags": "VOLS · HÔTELS · VISA"
+      },
+      {
+        "city": "Dubaï",
+        "tags": "VOLS · HÔTELS"
+      },
+      {
+        "city": "Tunis",
+        "tags": "VOLS · HÔTELS"
+      },
+      {
+        "city": "Nouadhibou",
+        "tags": "VOLS"
+      }
     ],
     "faqTitle": "Questions fréquentes",
     "faq": [
@@ -160,22 +223,9 @@
   },
   "Flights": {
     "summary": {
-      "from": "Nouakchott",
-      "to": "Djeddah",
       "datesLabel": "Dates",
-      "dates": "12 — 26 mars",
-      "travelersLabel": "Voyageurs",
-      "travelers": "1 adulte · Économie"
+      "travelersLabel": "Voyageurs"
     },
-    "priceStrip": [
-      { "date": "9 mars", "price": "33 200" },
-      { "date": "10 mars", "price": "32 800" },
-      { "date": "12 mars", "price": "32 000" },
-      { "date": "13 mars", "price": "30 400" },
-      { "date": "14 mars", "price": "28 900 ↓" },
-      { "date": "15 mars", "price": "31 100" },
-      { "date": "16 mars", "price": "34 600" }
-    ],
     "filters": {
       "title": "Filtres",
       "clear": "Effacer",
@@ -188,8 +238,7 @@
       "priceMax": "60 000 MRU",
       "airlinesTitle": "Compagnies",
       "baggageTitle": "Bagages",
-      "baggage23": "Bagage 23 kg inclus",
-      "zamzam": "Eau Zamzam autorisée"
+      "baggage23": "Bagage 23 kg inclus"
     },
     "sort": {
       "best": "Recommandé",
@@ -203,82 +252,11 @@
     "direct": "direct",
     "stop": "1 escale",
     "cheapestTag": "Le moins cher",
-    "labels": {
-      "baggage": "Bagages",
-      "cabin": "Cabine",
-      "meals": "Repas",
-      "zamzam": "Eau Zamzam",
-      "modification": "Modification",
-      "cancellation": "Annulation",
-      "economy": "Économie",
-      "halal": "Halal inclus",
-      "flightDirect": "vol direct"
+    "errors": {
+      "notConfigured": "La recherche de vols en direct n’est pas encore configurée.",
+      "generic": "Impossible de contacter le moteur de recherche de vols pour le moment."
     },
-    "results": [
-      {
-        "id": "al-mai",
-        "code": "MAI",
-        "times": "08:15 — 14:25",
-        "airline": "Mauritania Airlines · L6 402",
-        "routeSummary": "NKC — JED · 5 h 10",
-        "direct": true,
-        "priceMru": "32 000 MRU",
-        "priceEur": "800 €",
-        "segments": [
-          { "times": "08:15 — 14:25", "route": "Nouakchott NKC → Djeddah JED T1", "meta": "L6 402 · Boeing 737-800 · 5 h 10 · vol direct" }
-        ],
-        "details": { "baggage": "2 × 23 kg + 7 kg", "cabin": "Économie", "meals": "Halal inclus", "zamzam": "5 L autorisés" }
-      },
-      {
-        "id": "al-ram",
-        "code": "RAM",
-        "times": "02:40 — 13:45",
-        "airline": "Royal Air Maroc · AT 720",
-        "routeSummary": "NKC — CMN — JED · 11 h 05",
-        "direct": false,
-        "priceMru": "28 900 MRU",
-        "priceEur": "723 €",
-        "cheapest": true,
-        "segments": [
-          { "times": "02:40 — 06:05", "route": "Nouakchott NKC → Casablanca CMN T1", "meta": "AT 721 · Boeing 737-800 · 3 h 25" },
-          { "times": "08:15 — 13:45", "route": "Casablanca CMN T2 → Djeddah JED T1", "meta": "AT 720 · Boeing 787-8 · 5 h 30", "isNext": true }
-        ],
-        "layover": { "duration": "2 h 10", "title": "Escale à Casablanca CMN", "meta": "Changement T1 → T2 · bagages enregistrés jusqu'à Djeddah" },
-        "details": { "baggage": "1 × 23 kg + 8 kg", "cabin": "Économie", "meals": "Halal inclus", "modification": "Payante" }
-      },
-      {
-        "id": "al-tk",
-        "code": "TK",
-        "times": "23:55 — 16:10",
-        "airline": "Turkish Airlines · TK 618",
-        "routeSummary": "NKC — IST — JED · 16 h 15",
-        "direct": false,
-        "priceMru": "38 900 MRU",
-        "priceEur": "973 €",
-        "segments": [
-          { "times": "23:55 — 07:35", "route": "Nouakchott NKC → Istanbul IST", "meta": "TK 619 · Airbus A330-300 · 6 h 40" },
-          { "times": "11:40 — 16:10", "route": "Istanbul IST → Djeddah JED T1", "meta": "TK 618 · Boeing 737 MAX 8 · 3 h 30", "isNext": true }
-        ],
-        "layover": { "duration": "4 h 05", "title": "Escale à Istanbul IST", "meta": "Même terminal · salon et hôtel de transit offerts" },
-        "details": { "baggage": "2 × 23 kg + 8 kg", "cabin": "Économie", "meals": "Halal inclus", "cancellation": "Gratuite 24 h" }
-      },
-      {
-        "id": "al-tu",
-        "code": "TU",
-        "times": "06:30 — 21:05",
-        "airline": "Tunisair · TU 401",
-        "routeSummary": "NKC — TUN — JED · 14 h 35",
-        "direct": false,
-        "priceMru": "41 200 MRU",
-        "priceEur": "1 030 €",
-        "segments": [
-          { "times": "06:30 — 11:20", "route": "Nouakchott NKC → Tunis TUN", "meta": "TU 401 · Airbus A320 · 4 h 50" },
-          { "times": "14:40 — 21:05", "route": "Tunis TUN → Djeddah JED T1", "meta": "TU 418 · Airbus A330-200 · 5 h 25", "isNext": true }
-        ],
-        "layover": { "duration": "3 h 20", "title": "Escale à Tunis TUN", "meta": "Même terminal · récupération des bagages non requise" },
-        "details": { "baggage": "1 × 23 kg + 8 kg", "cabin": "Économie", "meals": "Halal inclus", "modification": "Payante" }
-      }
-    ]
+    "empty": "Aucun tarif trouvé pour cet itinéraire et ces dates."
   },
   "Hotels": {
     "summary": {
@@ -335,18 +313,45 @@
     "description": "Vol direct Mauritania Airlines, hôtel 4★ à Makkah avec vue sur le Haram, cinq nuits à Médine, visa, transferts et accompagnement religieux depuis Nouakchott.",
     "programTitle": "Programme",
     "program": [
-      { "days": "Jours 1—2", "text": "Départ de Nouakchott, arrivée à Djeddah, transfert et installation à Makkah." },
-      { "days": "Jours 3—9", "text": "Omra, prières au Haram, cours quotidiens et visites des lieux saints de Makkah." },
-      { "days": "Jours 10—14", "text": "Route vers Médine, cinq nuits près du Masjid an-Nabawi, visites de Quba et Uhud." },
-      { "days": "Jour 15", "text": "Retour Djeddah — Nouakchott." }
+      {
+        "days": "Jours 1—2",
+        "text": "Départ de Nouakchott, arrivée à Djeddah, transfert et installation à Makkah."
+      },
+      {
+        "days": "Jours 3—9",
+        "text": "Omra, prières au Haram, cours quotidiens et visites des lieux saints de Makkah."
+      },
+      {
+        "days": "Jours 10—14",
+        "text": "Route vers Médine, cinq nuits près du Masjid an-Nabawi, visites de Quba et Uhud."
+      },
+      {
+        "days": "Jour 15",
+        "text": "Retour Djeddah — Nouakchott."
+      }
     ],
     "includedTitle": "Ce qui est compris",
     "included": [
-      { "item": "Vol aller-retour", "value": "Direct, bagage 2 × 23 kg" },
-      { "item": "Hébergement Makkah", "value": "4★, chambre quadruple, 9 nuits" },
-      { "item": "Hébergement Médine", "value": "4★, 5 nuits, pension complète" },
-      { "item": "Visa et assurance", "value": "Inclus, dossier traité par l'agence" },
-      { "item": "Encadrement", "value": "Guide francophone et arabophone" }
+      {
+        "item": "Vol aller-retour",
+        "value": "Direct, bagage 2 × 23 kg"
+      },
+      {
+        "item": "Hébergement Makkah",
+        "value": "4★, chambre quadruple, 9 nuits"
+      },
+      {
+        "item": "Hébergement Médine",
+        "value": "4★, 5 nuits, pension complète"
+      },
+      {
+        "item": "Visa et assurance",
+        "value": "Inclus, dossier traité par l'agence"
+      },
+      {
+        "item": "Encadrement",
+        "value": "Guide francophone et arabophone"
+      }
     ],
     "sidebar": {
       "fromLabel": "À partir de",
@@ -381,7 +386,14 @@
       "nationalityPh": "Mauritanienne",
       "passportNumber": "N° de passeport",
       "passportPh": "A0000000",
-      "passportExpiry": "Expiration du passeport"
+      "passportExpiry": "Expiration du passeport",
+      "title": "Civilité",
+      "titleMr": "M.",
+      "titleMrs": "Mme",
+      "titleMs": "Mlle",
+      "gender": "Genre",
+      "genderM": "Homme",
+      "genderF": "Femme"
     },
     "contactTitle": "Contact",
     "phone": "Téléphone",
@@ -414,7 +426,17 @@
       "totalMru": "35 600 MRU",
       "totalEur": "890 €",
       "pay": "Payer et émettre le billet",
-      "note": "Billet émis sous 2 heures. Annulation gratuite 24 h."
+      "note": "Billet émis sous 2 heures. Annulation gratuite 24 h.",
+      "submitting": "Traitement…"
+    },
+    "errors": {
+      "generic": "Une erreur est survenue. Merci de réessayer.",
+      "notEnoughSeats": "Il ne reste plus assez de places pour ce forfait."
+    },
+    "confirmation": {
+      "title": "Réservation enregistrée",
+      "reference": "Référence :",
+      "duffelPending": "Billet en attente de confirmation auprès de la compagnie — notre équipe vous contactera."
     }
   }
 }

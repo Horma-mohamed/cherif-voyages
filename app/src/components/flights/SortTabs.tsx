@@ -1,17 +1,27 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { BellIcon } from '@/components/Icons';
 
-export default function SortTabs() {
-  const t = useTranslations('Flights.sort');
-  const [sort, setSort] = useState<'best' | 'cheap' | 'fast'>('best');
+export type SortKey = 'best' | 'cheap' | 'fast';
 
-  const tabs: { key: 'best' | 'cheap' | 'fast'; label: string; sub: string }[] = [
-    { key: 'best', label: t('best'), sub: t('bestSub') },
-    { key: 'cheap', label: t('cheap'), sub: t('cheapSub') },
-    { key: 'fast', label: t('fast'), sub: t('fastSub') }
+export default function SortTabs({
+  sort,
+  onChange,
+  cheapestSub,
+  fastestSub
+}: {
+  sort: SortKey;
+  onChange: (sort: SortKey) => void;
+  cheapestSub: string;
+  fastestSub: string;
+}) {
+  const t = useTranslations('Flights.sort');
+
+  const tabs: { key: SortKey; label: string; sub: string }[] = [
+    { key: 'best', label: t('best'), sub: '' },
+    { key: 'cheap', label: t('cheap'), sub: cheapestSub },
+    { key: 'fast', label: t('fast'), sub: fastestSub }
   ];
 
   return (
@@ -20,14 +30,14 @@ export default function SortTabs() {
         {tabs.map(({ key, label, sub }, i) => (
           <button
             key={key}
-            onClick={() => setSort(key)}
+            onClick={() => onChange(key)}
             aria-pressed={sort === key}
             className={`seg-btn cursor-pointer border-0 bg-transparent px-4 py-2.5 text-start font-sans text-[13px] font-semibold text-[var(--color-ink)] ${
               i > 0 ? 'border-s border-[var(--color-divider)]' : ''
             }`}
           >
             {label}
-            <div className="sub text-[11px] font-normal text-[rgba(15,17,21,0.5)]">{sub}</div>
+            {sub && <div className="sub text-[11px] font-normal text-[rgba(15,17,21,0.5)]">{sub}</div>}
           </button>
         ))}
       </div>

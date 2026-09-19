@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BookingType {
+  FLIGHT
+  PACKAGE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CARD
+  BANKILY
+  MASRVI
+  AGENCY
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+model Package {
+  id               String    @id @default(cuid())
+  slug             String    @unique
+  kickerFr         String
+  kickerAr         String
+  titleFr          String
+  titleAr          String
+  descriptionFr    String
+  descriptionAr    String
+  departureCityFr  String
+  departureCityAr  String
+  durationDays     Int
+  priceMru         Int
+  priceEur         Int
+  depositPercent   Int
+  seatsTotal       Int
+  seatsBooked      Int      @default(0)
+  departureDate    DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  programSteps PackageProgramStep[]
+  inclusions   PackageInclusion[]
+  bookings     PackageBooking[]
+}
+
+model PackageProgramStep {
+  id           String  @id @default(cuid())
+  packageId    String
+  order        Int
+  daysLabelFr  String
+  daysLabelAr  String
+  textFr       String
+  textAr       String
+
+  package Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  @@index([packageId])
+}
+
+model PackageInclusion {
+  id        String  @id @default(cuid())
+  packageId String
+  order     Int
+  itemFr    String
+  itemAr    String
+  valueFr   String
+  valueAr   String
+  highlight Boolean @default(false)
+
+  package Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  @@index([packageId])
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+  nationality String?
+  createdAt DateTime @default(now())
+
+  bookings Booking[]
+}
+
+model Booking {
+  id              String        @id @default(cuid())
+  type            BookingType
+  status          BookingStatus @default(PENDING)
+  totalAmountMru  Int
+  totalAmountEur  Int
+  customerId      String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  customer       Customer        @relation(fields: [customerId], references: [id])
+  travelers      Traveler[]
+  packageBooking PackageBooking?
+  flightBooking  FlightBooking?
+  payment        Payment?
+
+  @@index([customerId])
+}
+
+model Traveler {
+  id              String    @id @default(cuid())
+  bookingId       String
+  title           String?
+  gender          String?
+  firstName       String
+  lastName        String
+  birthDate       DateTime?
+  nationality     String?
+  passportNumber  String?
+  passportExpiry  DateTime?
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId])
+}
+
+model PackageBooking {
+  id             String @id @default(cuid())
+  bookingId      String @unique
+  packageId      String
+  travelersCount Int
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  package Package @relation(fields: [packageId], references: [id])
+
+  @@index([packageId])
+}
+
+model FlightBooking {
+  id             String    @id @default(cuid())
+  bookingId      String    @unique
+  duffelOfferId  String
+  duffelOrderId  String?
+  origin         String
+  destination    String
+  departureDate  DateTime
+  returnDate     DateTime?
+  cabinClass     String
+  priceMru       Int
+  priceEur       Int
+  raw            Json?
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id         String        @id @default(cuid())
+  bookingId  String        @unique
+  method     PaymentMethod
+  status     PaymentStatus @default(PENDING)
+  amountMru  Int
+  amountEur  Int
+  reference  String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}

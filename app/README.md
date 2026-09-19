@@ -1,5 +1,33 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Backend setup
+
+Copy `.env.example` to `.env` and fill in:
+
+- `DATABASE_URL` — a Postgres connection string. Then run:
+  ```bash
+  npx prisma migrate deploy   # applies the schema
+  npm run db:seed             # loads the 3 Omra/Hajj packages
+  ```
+  This is what backs the home page's package cards, the package detail
+  pages, and both booking flows (packages and flights). Hotels are still
+  static mock content (`src/messages/*.json`) — not wired to a backend yet.
+
+- `DUFFEL_API_KEY` — a test/sandbox token from [duffel.com](https://duffel.com)
+  (Developers → Access tokens). Powers real flight search (`/flights`) and
+  booking (`POST /api/bookings/flight`, which creates a Duffel **hold**
+  order — seats reserved, payment settled with Duffel separately, since
+  Bankily/Masrvi/bank transfer aren't things Duffel can charge directly).
+  Without a key, `/flights` shows a "not configured" message and the rest
+  of the site works normally. This integration has never made a live call
+  in development — verify it against a real sandbox token before relying
+  on it, and check Duffel's current `Duffel-Version` header value in their
+  docs (it changes over time; see `src/lib/duffel.ts`).
+
+- `MRU_PER_EUR` in `src/lib/currency.ts` is a hardcoded placeholder exchange
+  rate (Duffel doesn't settle in MRU) — replace with a real FX source
+  before relying on displayed MRU prices.
+
 ## Getting Started
 
 First, run the development server:
