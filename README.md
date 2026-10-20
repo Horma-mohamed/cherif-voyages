@@ -1,25 +1,61 @@
-# CODING AGENTS: READ THIS FIRST
+# Cherif Voyages
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Bilingual (FR / AR) travel agency web app for **Cherif Voyages** — flights, hotels, Omra/Hajj packages, customer accounts, and agency back-office. Built with **Next.js 16**, **PostgreSQL**, and **Prisma**.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+All application code lives in the [`app/`](app/) directory.
 
-## What you should do — IMPORTANT
+## Quick start
 
-**Read the chat transcripts first.** There are 2 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+```bash
+cd app
+cp .env.example .env
+npm install
+npx prisma migrate deploy
+npm run db:seed
+npm run dev
+```
 
-**Read `project/Cherif Voyages.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+Open [http://localhost:3000/fr](http://localhost:3000/fr).
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Environment
 
-## About the design files
+Configure `app/.env` (see `app/.env.example`):
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+| Variable | Purpose |
+|----------|---------|
+| `DATABASE_URL` | PostgreSQL connection string |
+| `DUFFEL_API_KEY` | Optional — Duffel sandbox/live token for flight search and hold orders |
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+After changing the schema, run `npx prisma migrate deploy` from `app/`.
 
-## Bundle contents
+## Features
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Cherif Voyages Travel Design` project files (HTML prototypes, assets, components)
+- **Public site** — Search hub (flights, hotels, Omra/Hajj, cars, visa), package catalogue, flight results (Duffel), booking and inquiry flows
+- **Customer account** (`/account`) — Trips, bookings, Omra progress, travelers, price alerts, messages
+- **Admin** (`/admin`) — KPIs, bookings, groups, payments, CRM, package catalogue editor
+
+Seed admin (change before production): `admin@cherifvoyages.mr` / `ChangeMe123!`
+
+## Scripts (from `app/`)
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Development server |
+| `npm run build` | Production build |
+| `npm run start` | Run production server |
+| `npm run db:seed` | Seed packages and admin user |
+| `npm run lint` | ESLint |
+
+## Deploy
+
+1. Set `DATABASE_URL` and optional `DUFFEL_API_KEY` on the host.
+2. Build with root directory **`app`** (or run commands from `app/`).
+3. Run migrations: `npx prisma migrate deploy`.
+4. Rotate the seeded admin password.
+
+## Repository layout
+
+```
+app/          Next.js application (only tracked product code)
+README.md     This file
+```
