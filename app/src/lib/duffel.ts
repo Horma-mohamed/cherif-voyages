@@ -142,11 +142,18 @@ export interface FlightOffer {
   paymentRequiredBy: string | null;
 }
 
+export interface FlightSearchSlice {
+  origin: string;
+  destination: string;
+  departureDate: string;
+}
+
 export interface FlightSearchParams {
   origin: string;
   destination: string;
   departureDate: string; // YYYY-MM-DD
   returnDate?: string; // YYYY-MM-DD
+  extraSlices?: FlightSearchSlice[];
   adults: number;
   cabinClass?: 'economy' | 'premium_economy' | 'business' | 'first';
 }
@@ -193,7 +200,15 @@ export async function searchFlights(
   const slices = [
     { origin: params.origin, destination: params.destination, departure_date: params.departureDate }
   ];
-  if (params.returnDate) {
+  if (params.extraSlices?.length) {
+    for (const leg of params.extraSlices) {
+      slices.push({
+        origin: leg.origin,
+        destination: leg.destination,
+        departure_date: leg.departureDate
+      });
+    }
+  } else if (params.returnDate) {
     slices.push({
       origin: params.destination,
       destination: params.origin,

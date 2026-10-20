@@ -22,9 +22,13 @@ function stopCount(result: FlightSearchResult) {
 
 export default function FlightResultsList({
   results,
-  searchQuery
+  searchQuery,
+  initialStops = 'all',
+  initialMaxPriceMru
 }: {
   results: FlightSearchResult[];
+  initialStops?: StopsFilter;
+  initialMaxPriceMru?: number;
   searchQuery: {
     cabinClass: string;
     origin: string;
@@ -35,7 +39,12 @@ export default function FlightResultsList({
   const tc = useTranslations('Common');
   const router = useRouter();
   const [sort, setSort] = useState<SortKey>('best');
-  const [stops, setStops] = useState<StopsFilter>('all');
+  const [stops, setStops] = useState<StopsFilter>(initialStops);
+  const priceCeiling = useMemo(
+    () => Math.max(60000, ...results.map((r) => r.priceMru), initialMaxPriceMru ?? 0),
+    [results, initialMaxPriceMru]
+  );
+  const [maxPriceMru, setMaxPriceMru] = useState(initialMaxPriceMru ?? priceCeiling);
 
   const allAirlineNames = useMemo(() => Array.from(new Set(results.map((r) => r.ownerAirline))), [results]);
   const [selectedAirlines, setSelectedAirlines] = useState<Set<string>>(() => new Set(allAirlineNames));
@@ -45,9 +54,10 @@ export default function FlightResultsList({
       if (stops === 'direct' && stopCount(r) > 0) return false;
       if (stops === 'oneMax' && stopCount(r) > 1) return false;
       if (!selectedAirlines.has(r.ownerAirline)) return false;
+      if (r.priceMru > maxPriceMru) return false;
       return true;
     });
-  }, [results, stops, selectedAirlines]);
+  }, [results, stops, selectedAirlines, maxPriceMru]);
 
   const cheapestId = useMemo(
     () => filtered.reduce((min, r) => (r.priceEur < min.priceEur ? r : min), filtered[0])?.id,
@@ -122,9 +132,13 @@ export default function FlightResultsList({
               return next;
             })
           }
+          maxPriceMru={maxPriceMru}
+          priceCeiling={priceCeiling}
+          onMaxPriceChange={setMaxPriceMru}
           onClear={() => {
             setStops('all');
             setSelectedAirlines(new Set(allAirlineNames));
+            setMaxPriceMru(priceCeiling);
           }}
         />
         <div className="border-2 border-[var(--color-divider)]">

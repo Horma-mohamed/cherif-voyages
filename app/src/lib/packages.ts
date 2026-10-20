@@ -10,9 +10,12 @@ export async function listPackages() {
     titleAr: pkg.titleAr,
     descriptionFr: pkg.descriptionFr,
     descriptionAr: pkg.descriptionAr,
+    departureCityFr: pkg.departureCityFr,
+    departureCityAr: pkg.departureCityAr,
     durationDays: pkg.durationDays,
     priceMru: pkg.priceMru,
     priceEur: pkg.priceEur,
+    departureDate: pkg.departureDate,
     seatsRemaining: pkg.seatsTotal - pkg.seatsBooked
   }));
 }

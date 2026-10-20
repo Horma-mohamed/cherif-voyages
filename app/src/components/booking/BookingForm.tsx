@@ -25,8 +25,16 @@ export type BookingContext =
       priceMru: number;
       priceEur: number;
     }
-  | { kind: 'hotel'; name: string; priceMru: string; priceEur: string }
-  | { kind: 'mock' };
+  | {
+      kind: 'hotel';
+      name: string;
+      priceMru: string;
+      priceEur: string;
+      destination?: string;
+      checkIn?: string;
+      checkOut?: string;
+    }
+  | { kind: 'service'; service: 'cars' | 'visa'; place: string; dateFrom: string; dateTo?: string };
 
 function Field({
   label,
@@ -85,15 +93,14 @@ export default function BookingForm({ context }: { context: BookingContext }) {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ bookingId: string; duffelWarning?: string | null } | null>(null);
 
-  if (context.kind === 'mock') {
-    return <MockBookingForm />;
-  }
   if (context.kind === 'hotel') {
     return <HotelBookingView context={context} />;
   }
+  if (context.kind === 'service') {
+    return <ServiceInquiryView context={context} />;
+  }
 
   async function handleSubmit() {
-    if (context.kind === 'mock' || context.kind === 'hotel') return;
 
     setSubmitting(true);
     setError(null);
@@ -240,6 +247,9 @@ export default function BookingForm({ context }: { context: BookingContext }) {
             <Field label={t('cvv')} placeholder={t('cvvPh')} value={cvv} onChange={setCvv} />
           </div>
         )}
+        {paymentMethod !== 'card' && (
+          <p className="text-[13px] text-[rgba(15,17,21,0.65)]">{t('paymentOfflineNote')}</p>
+        )}
       </form>
 
       <aside className="sticky top-[90px] border-2 border-[var(--color-divider)]">
@@ -275,12 +285,48 @@ export default function BookingForm({ context }: { context: BookingContext }) {
   );
 }
 
-function HotelBookingView({ context }: { context: { name: string; priceMru: string; priceEur: string } }) {
+function HotelBookingView({
+  context
+}: {
+  context: { name: string; priceMru: string; priceEur: string; destination?: string; checkIn?: string; checkOut?: string };
+}) {
   const t = useTranslations('Booking');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function submitInquiry() {
+    setSubmitting(true);
+    setError(null);
+    const summary = `Hôtel: ${context.name} · ${context.destination ?? ''} · ${context.checkIn ?? ''} — ${context.checkOut ?? ''} · ${context.priceMru} / ${context.priceEur}`;
+    const res = await fetch('/api/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        kind: 'hotel',
+        summary,
+        contact: { firstName, lastName, email, phone }
+      })
+    });
+    setSubmitting(false);
+    if (!res.ok) {
+      setError(t('errors.generic'));
+      return;
+    }
+    setSent(true);
+  }
+
+  if (sent) {
+    return (
+      <div className="border-2 border-[var(--color-green)] bg-[var(--color-green-tint)] p-6">
+        <p className="m-0 text-[14px] text-[rgba(15,17,21,0.75)]">{t('inquirySent')}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,320px)]">
@@ -309,90 +355,100 @@ function HotelBookingView({ context }: { context: { name: string; priceMru: stri
             <span className="font-sans text-[22px] font-extrabold text-[var(--color-accent)]">{context.priceMru}</span>
           </div>
           <div className="mb-3.5 text-end text-[12px] text-[rgba(15,17,21,0.5)]">{context.priceEur}</div>
+          {error && <p className="mb-3 text-[12px] text-[var(--color-clay)]">{error}</p>}
           <button
             type="button"
-            disabled
-            className="w-full cursor-not-allowed border-0 bg-[var(--color-accent)] p-3.5 text-start font-sans text-[14px] font-extrabold text-white opacity-60"
+            disabled={submitting || !email || !phone}
+            onClick={submitInquiry}
+            className="w-full cursor-pointer border-0 bg-[var(--color-accent)] p-3.5 text-start font-sans text-[14px] font-extrabold text-white disabled:opacity-60"
           >
-            {t('summary.pay')}
+            {submitting ? t('summary.submitting') : t('inquirySubmit')}
           </button>
-          <p className="mt-2.5 text-[11px] text-[var(--color-clay)]">{t('hotelComingSoon')}</p>
+          <p className="mt-2.5 text-[11px] text-[var(--color-green)]">{t('summary.note')}</p>
         </div>
       </aside>
     </div>
   );
 }
 
-function MockBookingForm() {
+function ServiceInquiryView({ context }: { context: Extract<BookingContext, { kind: 'service' }> }) {
   const t = useTranslations('Booking');
+  const th = useTranslations('Home');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function submitInquiry() {
+    setSubmitting(true);
+    setError(null);
+    const summary = `${th(`modes.${context.service}`)} · ${context.place} · ${context.dateFrom}${context.dateTo ? ` — ${context.dateTo}` : ''}`;
+    const res = await fetch('/api/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        kind: 'service',
+        service: context.service,
+        summary,
+        contact: { firstName, lastName, email, phone }
+      })
+    });
+    setSubmitting(false);
+    if (!res.ok) {
+      setError(t('errors.generic'));
+      return;
+    }
+    setSent(true);
+  }
+
+  if (sent) {
+    return (
+      <div className="border-2 border-[var(--color-green)] bg-[var(--color-green-tint)] p-6">
+        <p className="m-0 text-[14px] text-[rgba(15,17,21,0.75)]">{t('inquirySent')}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,320px)]">
-      <form>
-        <h2 className="mb-4 text-[24px]">{t('travelerTitle')}</h2>
+      <div>
+        <h2 className="mb-4 text-[24px]">{t('serviceTitle')}</h2>
+        <dl className="mb-5 border-2 border-[var(--color-divider)] text-[14px]">
+          <div className="flex justify-between border-b border-[var(--color-divider)] px-4 py-3">
+            <dt className="text-[rgba(15,17,21,0.55)]">{t('serviceSummary')}</dt>
+            <dd className="font-semibold">{th(`modes.${context.service}`)}</dd>
+          </div>
+          <div className="flex justify-between border-b border-[var(--color-divider)] px-4 py-3">
+            <dt className="text-[rgba(15,17,21,0.55)]">{th('simpleSearch.place')}</dt>
+            <dd className="font-semibold">{context.place}</dd>
+          </div>
+          <div className="flex justify-between px-4 py-3">
+            <dt className="text-[rgba(15,17,21,0.55)]">{th('simpleSearch.dateFrom')}</dt>
+            <dd className="font-semibold">
+              {context.dateFrom}
+              {context.dateTo ? ` — ${context.dateTo}` : ''}
+            </dd>
+          </div>
+        </dl>
         <div className="mb-5.5 grid gap-3.5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
-          <Field label={t('fields.firstName')} placeholder={t('fields.firstNamePh')} value="" onChange={() => {}} />
-          <Field label={t('fields.lastName')} placeholder={t('fields.lastNamePh')} value="" onChange={() => {}} />
-          <Field label={t('fields.birthDate')} placeholder={t('fields.datePh')} value="" onChange={() => {}} />
-          <Field label={t('fields.nationality')} placeholder={t('fields.nationalityPh')} value="" onChange={() => {}} />
-          <Field label={t('fields.passportNumber')} placeholder={t('fields.passportPh')} value="" onChange={() => {}} />
-          <Field label={t('fields.passportExpiry')} placeholder={t('fields.datePh')} value="" onChange={() => {}} />
+          <Field label={t('fields.firstName')} placeholder={t('fields.firstNamePh')} value={firstName} onChange={setFirstName} />
+          <Field label={t('fields.lastName')} placeholder={t('fields.lastNamePh')} value={lastName} onChange={setLastName} />
+          <Field label={t('phone')} placeholder={t('phonePh')} value={phone} onChange={setPhone} />
+          <Field label={t('email')} placeholder={t('emailPh')} value={email} onChange={setEmail} type="email" />
         </div>
-
-        <hr className="hr" />
-        <h3 className="mb-3.5 text-[19px]">{t('contactTitle')}</h3>
-        <div className="mb-5.5 grid gap-3.5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
-          <Field label={t('phone')} placeholder={t('phonePh')} value="" onChange={() => {}} />
-          <Field label={t('email')} placeholder={t('emailPh')} value="" onChange={() => {}} />
-        </div>
-
-        <hr className="hr" />
-        <h3 className="mb-3.5 text-[19px]">{t('paymentTitle')}</h3>
-        <PaymentMethodSelector value="card" onChange={() => {}} />
-        <div className="grid gap-3.5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
-          <div className="field" style={{ gridColumn: '1/-1' }}>
-            <label>{t('cardNumber')}</label>
-            <input className="input bg-white" placeholder={t('cardNumberPh')} />
-          </div>
-          <Field label={t('expiry')} placeholder={t('expiryPh')} value="" onChange={() => {}} />
-          <Field label={t('cvv')} placeholder={t('cvvPh')} value="" onChange={() => {}} />
-        </div>
-      </form>
-
-      <aside className="sticky top-[90px] border-2 border-[var(--color-divider)]">
-        <div className="border-b-2 border-[var(--color-divider)] px-4.5 py-4">
-          <div className="font-sans text-[16px] font-extrabold">{t('summary.title')}</div>
-          <div className="text-[13px] text-[rgba(15,17,21,0.6)]">{t('summary.route')}</div>
-        </div>
-        <div className="px-4.5 py-4">
-          <div className="flex justify-between border-b border-[var(--color-divider)] pb-2.25 text-[13px]">
-            <span>{t('summary.flight')}</span>
-            <span>{t('summary.flightPrice')}</span>
-          </div>
-          <div className="flex justify-between border-b border-[var(--color-divider)] py-2.25 text-[13px]">
-            <span>{t('summary.baggage')}</span>
-            <span>{t('summary.baggagePrice')}</span>
-          </div>
-          <div className="flex justify-between border-b-2 border-[var(--color-divider)] py-2.25 text-[13px]">
-            <span>{t('summary.service')}</span>
-            <span>{t('summary.servicePrice')}</span>
-          </div>
-          <div className="flex items-baseline justify-between py-3.5 pb-1">
-            <span className="font-sans text-[15px] font-extrabold">{t('summary.total')}</span>
-            <span className="font-sans text-[22px] font-extrabold text-[var(--color-accent)]">
-              {t('summary.totalMru')}
-            </span>
-          </div>
-          <div className="mb-3.5 text-end text-[12px] text-[rgba(15,17,21,0.5)]">{t('summary.totalEur')}</div>
-          <button
-            type="button"
-            className="w-full cursor-pointer border-0 bg-[var(--color-accent)] p-3.5 text-start font-sans text-[14px] font-extrabold text-white"
-          >
-            {t('summary.pay')}
-          </button>
-          <p className="mt-2.5 text-[11px] text-[var(--color-green)]">{t('summary.note')}</p>
-        </div>
-      </aside>
+        {error && <p className="text-[13px] text-[var(--color-clay)]">{error}</p>}
+        <button
+          type="button"
+          disabled={submitting || !email || !phone}
+          onClick={submitInquiry}
+          className="cursor-pointer border-0 bg-[var(--color-accent)] px-6 py-3 font-sans text-[14px] font-extrabold text-white disabled:opacity-60"
+        >
+          {submitting ? t('summary.submitting') : t('inquirySubmit')}
+        </button>
+      </div>
     </div>
   );
 }

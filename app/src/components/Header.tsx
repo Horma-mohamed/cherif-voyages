@@ -9,8 +9,8 @@ export default async function Header() {
   const navLinks = [
     { href: '/flights', label: t('nav.flights') },
     { href: '/hotels', label: t('nav.hotels') },
-    { href: '/packages/omra-ramadan', label: t('nav.omraHajj') },
-    { href: '/', label: t('nav.visa') },
+    { href: '/packages?kind=omra', label: t('nav.omraHajj') },
+    { href: '/booking?type=service&service=visa&place=Nouakchott&dateFrom=2027-03-12', label: t('nav.visa') },
     { href: '/', label: t('nav.agency') }
   ];
 

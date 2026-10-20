@@ -72,6 +72,17 @@
       "toCity": "Djeddah (JED)",
       "dates": "Départ — Retour",
       "datesValue": "12 mars — 26 mars",
+      "departure": "Départ",
+      "return": "Retour",
+      "swap": "Inverser les aéroports",
+      "soonHint": "Bientôt disponible",
+      "errors": {
+        "invalidAirport": "Indiquez un code IATA valide (ex. NKC, JED).",
+        "sameAirport": "Le départ et la destination doivent être différents.",
+        "missingDates": "Choisissez les dates de voyage.",
+        "returnBeforeDeparture": "La date de retour doit être après le départ.",
+        "multiCitySoon": "Le multi-destinations arrive bientôt — utilisez aller simple ou aller-retour."
+      },
       "chips": {
         "direct": "Vols directs",
         "flexible": "Dates flexibles ±3 j",
@@ -85,6 +96,10 @@
       "destinationValue": "Makkah, Arabie Saoudite",
       "dates": "Arrivée — Départ",
       "datesValue": "12 mars — 19 mars",
+      "checkIn": "Arrivée",
+      "checkOut": "Départ",
+      "adults": "Adultes",
+      "rooms": "Chambres",
       "travelers": "Voyageurs",
       "travelersValue": "2 adultes · 1 chambre",
       "chips": {
@@ -98,10 +113,14 @@
       "departureCityValue": "Nouakchott",
       "period": "Période",
       "periodValue": "Ramadan 1448",
+      "periodOptions": ["Ramadan 1448", "Chaabane 1448", "Hajj 1448"],
       "duration": "Durée",
       "durationValue": "12 — 15 jours",
+      "durationOptions": ["10 — 12 jours", "12 — 15 jours", "15 — 18 jours"],
       "pilgrims": "Pèlerins",
       "pilgrimsValue": "2 adultes",
+      "preferredAirline": "Compagnie préférée",
+      "preferredAirlinePh": "Ex. Mauritania Airlines",
       "seePackages": "Voir les forfaits",
       "chips": {
         "flightHotelVisa": "Vol + hôtel + visa",
@@ -113,7 +132,9 @@
       "place": "Lieu / Pays",
       "placeValue": "Nouakchott — Aéroport",
       "dates": "Dates",
-      "datesValue": "12 mars — 19 mars"
+      "datesValue": "12 mars — 19 mars",
+      "dateFrom": "Date de début",
+      "dateTo": "Date de fin"
     },
     "stats": [
       {
@@ -221,6 +242,15 @@
       "Quels bagages pour le Hajj ?"
     ]
   },
+  "Packages": {
+    "title": "Forfaits Omra & Hajj",
+    "filterOmra": "Omra",
+    "filterHajj": "Hajj",
+    "empty": "Aucun forfait ne correspond à votre recherche.",
+    "departure": "Départ",
+    "days": "jours",
+    "seatsLeft": "{count} places restantes"
+  },
   "Flights": {
     "summary": {
       "datesLabel": "Dates",
@@ -229,6 +259,9 @@
     "filters": {
       "title": "Filtres",
       "clear": "Effacer",
+      "baggageTitle": "Bagages",
+      "baggageIncluded": "Bagage 23 kg inclus",
+      "zamzam": "Eau Zamzam autorisée",
       "stopsTitle": "Escales",
       "stopsDirect": "Direct uniquement",
       "stopsOneMax": "1 escale max",
@@ -264,7 +297,8 @@
       "stayLabel": "Séjour",
       "stay": "12 — 19 mars · 7 nuits",
       "travelersLabel": "Voyageurs",
-      "travelers": "2 adultes · 1 chambre"
+      "travelers": "2 adultes · 1 chambre",
+      "roomUnit": "chambre(s)"
     },
     "tags": {
       "underOneKm": "Moins de 1 km du Haram",
@@ -437,7 +471,13 @@
       "reference": "Référence :",
       "duffelPending": "Billet en attente de confirmation auprès de la compagnie — notre équipe vous contactera."
     },
-    "hotelComingSoon": "La réservation d’hôtel en ligne arrive bientôt — contactez l’agence pour finaliser cette offre."
+    "hotelComingSoon": "La réservation d’hôtel en ligne arrive bientôt — contactez l’agence pour finaliser cette offre.",
+    "serviceTitle": "Demande de service",
+    "serviceSummary": "Récapitulatif de votre demande",
+    "serviceComingSoon": "Un conseiller Cherif Voyages vous contactera pour confirmer disponibilité et tarif. Vous pouvez aussi appeler le +222 45 25 00 00.",
+    "inquirySent": "Votre demande a été envoyée à l’agence. Consultez l’onglet Messages de votre compte pour le suivi.",
+    "inquirySubmit": "Envoyer la demande",
+    "paymentOfflineNote": "Vous recevrez les instructions de paiement (Bankily, Masrvi ou en agence) après validation de la réservation par Cherif Voyages."
   },
   "Auth": {
     "loginTab": "Se connecter",

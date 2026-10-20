@@ -72,6 +72,17 @@
       "toCity": "جدة (JED)",
       "dates": "المغادرة — العودة",
       "datesValue": "12 مارس — 26 مارس",
+      "departure": "المغادرة",
+      "return": "العودة",
+      "swap": "تبديل المطارات",
+      "soonHint": "قريباً",
+      "errors": {
+        "invalidAirport": "أدخل رمز IATA صالحاً (مثل NKC، JED).",
+        "sameAirport": "يجب أن يختلف المغادرة عن الوجهة.",
+        "missingDates": "اختر تواريخ السفر.",
+        "returnBeforeDeparture": "يجب أن تكون العودة بعد المغادرة.",
+        "multiCitySoon": "الوجهات المتعددة قريباً — استخدم ذهاباً أو ذهاباً وإياباً."
+      },
       "chips": {
         "direct": "رحلات مباشرة",
         "flexible": "تواريخ مرنة ±3 أيام",
@@ -85,6 +96,10 @@
       "destinationValue": "مكة، السعودية",
       "dates": "الوصول — المغادرة",
       "datesValue": "12 مارس — 19 مارس",
+      "checkIn": "الوصول",
+      "checkOut": "المغادرة",
+      "adults": "بالغون",
+      "rooms": "غرف",
       "travelers": "المسافرون",
       "travelersValue": "2 بالغين · غرفة واحدة",
       "chips": {
@@ -98,9 +113,13 @@
       "departureCityValue": "نواكشوط",
       "period": "الفترة",
       "periodValue": "رمضان 1448",
+      "periodOptions": ["رمضان 1448", "شعبان 1448", "الحج 1448"],
       "duration": "المدة",
       "durationValue": "12 — 15 يوماً",
+      "durationOptions": ["10 — 12 يوماً", "12 — 15 يوماً", "15 — 18 يوماً"],
       "pilgrims": "الحجاج",
+      "preferredAirline": "شركة مفضلة",
+      "preferredAirlinePh": "مثال: Mauritania Airlines",
       "pilgrimsValue": "2 بالغين",
       "seePackages": "عرض البرامج",
       "chips": {
@@ -113,7 +132,9 @@
       "place": "المكان / الدولة",
       "placeValue": "نواكشوط — المطار",
       "dates": "التواريخ",
-      "datesValue": "12 مارس — 19 مارس"
+      "datesValue": "12 مارس — 19 مارس",
+      "dateFrom": "تاريخ البداية",
+      "dateTo": "تاريخ النهاية"
     },
     "stats": [
       {
@@ -221,6 +242,15 @@
       "ما هي الأمتعة المسموحة للحج؟"
     ]
   },
+  "Packages": {
+    "title": "برامج العمرة والحج",
+    "filterOmra": "العمرة",
+    "filterHajj": "الحج",
+    "empty": "لا يوجد برنامج يطابق بحثك.",
+    "departure": "المغادرة",
+    "days": "أيام",
+    "seatsLeft": "{count} مقاعد متبقية"
+  },
   "Flights": {
     "summary": {
       "datesLabel": "التواريخ",
@@ -229,6 +259,9 @@
     "filters": {
       "title": "المرشحات",
       "clear": "مسح",
+      "baggageTitle": "الأمتعة",
+      "baggageIncluded": "أمتعة 23 كغ مشمولة",
+      "zamzam": "ماء زمزم مسموح",
       "stopsTitle": "التوقفات",
       "stopsDirect": "مباشر فقط",
       "stopsOneMax": "توقف واحد كحد أقصى",
@@ -264,7 +297,8 @@
       "stayLabel": "الإقامة",
       "stay": "12 — 19 مارس · 7 ليالٍ",
       "travelersLabel": "المسافرون",
-      "travelers": "2 بالغين · غرفة واحدة"
+      "travelers": "2 بالغين · غرفة واحدة",
+      "roomUnit": "غرف"
     },
     "tags": {
       "underOneKm": "أقل من 1 كم من الحرم",
@@ -437,7 +471,13 @@
       "reference": "المرجع:",
       "duffelPending": "التذكرة قيد التأكيد مع شركة الطيران — سيتواصل معك فريقنا."
     },
-    "hotelComingSoon": "حجز الفنادق عبر الإنترنت متاح قريباً — يرجى الاتصال بالوكالة لإتمام هذا العرض."
+    "hotelComingSoon": "حجز الفنادق عبر الإنترنت متاح قريباً — يرجى الاتصال بالوكالة لإتمام هذا العرض.",
+    "serviceTitle": "طلب خدمة",
+    "serviceSummary": "ملخص طلبك",
+    "serviceComingSoon": "سيتواصل معك مستشار Cherif Voyages لتأكيد التوفر والسعر. يمكنك أيضاً الاتصال على +222 45 25 00 00.",
+    "inquirySent": "تم إرسال طلبك إلى الوكالة. راجع رسائل حسابك للمتابعة.",
+    "inquirySubmit": "إرسال الطلب",
+    "paymentOfflineNote": "ستتلقى تعليمات الدفع (Bankily أو Masrvi أو في الوكالة) بعد تأكيد الحجز من Cherif Voyages."
   },
   "Auth": {
     "loginTab": "تسجيل الدخول",

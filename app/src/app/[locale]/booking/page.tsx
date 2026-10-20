@@ -1,17 +1,20 @@
 import { getTranslations } from 'next-intl/server';
+import { redirect } from '@/i18n/navigation';
 import { getPackageBySlug } from '@/lib/packages';
 import BookingForm, { type BookingContext } from '@/components/booking/BookingForm';
 
 export default async function BookingPage({
+  params: routeParams,
   searchParams
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
-  const params = await searchParams;
+  const [{ locale }, params] = await Promise.all([routeParams, searchParams]);
   const t = await getTranslations('Booking');
   const steps = [t('steps.travelers'), t('steps.options'), t('steps.payment')];
 
-  let context: BookingContext = { kind: 'mock' };
+  let context: BookingContext | null = null;
 
   if (params.type === 'package' && params.slug) {
     const pkg = await getPackageBySlug(params.slug);
@@ -49,8 +52,23 @@ export default async function BookingPage({
       kind: 'hotel',
       name: params.name,
       priceMru: params.priceMru ?? '',
-      priceEur: params.priceEur ?? ''
+      priceEur: params.priceEur ?? '',
+      destination: params.destination,
+      checkIn: params.checkIn,
+      checkOut: params.checkOut
     };
+  } else if (params.type === 'service' && params.service && params.place && params.dateFrom) {
+    context = {
+      kind: 'service',
+      service: params.service === 'visa' ? 'visa' : 'cars',
+      place: params.place,
+      dateFrom: params.dateFrom,
+      dateTo: params.dateTo
+    };
+  }
+
+  if (!context) {
+    redirect({ href: '/', locale });
   }
 
   return (
@@ -69,7 +87,7 @@ export default async function BookingPage({
         ))}
       </div>
 
-      <BookingForm context={context} />
+      <BookingForm context={context!} />
     </main>
   );
 }

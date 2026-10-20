@@ -12,10 +12,28 @@ type Hotel = {
   priceEur: string;
 };
 
-export default async function HotelsPage() {
+function fmtStay(checkIn: string, checkOut: string) {
+  if (!checkIn || !checkOut) return null;
+  return `${checkIn} — ${checkOut}`;
+}
+
+export default async function HotelsPage({
+  searchParams
+}: {
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
+  const params = await searchParams;
   const t = await getTranslations('Hotels');
   const tc = await getTranslations('Common');
   const hotels = t.raw('hotels') as Hotel[];
+
+  const destination = params.destination?.trim() || t('summary.destination');
+  const checkIn = params.checkIn ?? '';
+  const checkOut = params.checkOut ?? '';
+  const adults = params.adults ?? '2';
+  const rooms = params.rooms ?? '1';
+  const stayLabel = fmtStay(checkIn, checkOut) ?? t('summary.stay');
+  const travelersLabel = `${adults} · ${rooms} ${t('summary.roomUnit')}`;
 
   return (
     <main className="mx-auto max-w-[1300px] px-[28px] pb-14">
@@ -24,23 +42,26 @@ export default async function HotelsPage() {
           <div className="text-[10px] uppercase tracking-[0.09em] text-[rgba(15,17,21,0.5)]">
             {t('summary.destinationLabel')}
           </div>
-          <div className="text-[14px] font-semibold">{t('summary.destination')}</div>
+          <div className="text-[14px] font-semibold">{destination}</div>
         </div>
         <div className="flex-[1_1_200px] border-e border-[var(--color-divider)] p-3">
           <div className="text-[10px] uppercase tracking-[0.09em] text-[rgba(15,17,21,0.5)]">
             {t('summary.stayLabel')}
           </div>
-          <div className="text-[14px] font-semibold">{t('summary.stay')}</div>
+          <div className="text-[14px] font-semibold">{stayLabel}</div>
         </div>
         <div className="flex-[1_1_180px] border-e border-[var(--color-divider)] p-3">
           <div className="text-[10px] uppercase tracking-[0.09em] text-[rgba(15,17,21,0.5)]">
             {t('summary.travelersLabel')}
           </div>
-          <div className="text-[14px] font-semibold">{t('summary.travelers')}</div>
+          <div className="text-[14px] font-semibold">{travelersLabel}</div>
         </div>
-        <button className="min-h-12 flex-none cursor-pointer border-0 bg-[var(--color-accent)] px-6.5 font-sans text-[14px] font-extrabold text-white">
+        <Link
+          href="/"
+          className="flex min-h-12 flex-none cursor-pointer items-center border-0 bg-[var(--color-accent)] px-6.5 font-sans text-[14px] font-extrabold text-white no-underline"
+        >
           {tc('modify')}
-        </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,330px)]">
@@ -80,7 +101,7 @@ export default async function HotelsPage() {
                     {hotel.priceEur} {t('perNight')}
                   </div>
                   <Link
-                    href={`/booking?type=hotel&name=${encodeURIComponent(hotel.name)}&priceMru=${encodeURIComponent(hotel.priceMru)}&priceEur=${encodeURIComponent(hotel.priceEur)}`}
+                    href={`/booking?type=hotel&name=${encodeURIComponent(hotel.name)}&priceMru=${encodeURIComponent(hotel.priceMru)}&priceEur=${encodeURIComponent(hotel.priceEur)}&destination=${encodeURIComponent(destination)}&checkIn=${encodeURIComponent(checkIn)}&checkOut=${encodeURIComponent(checkOut)}`}
                     className="inline-block cursor-pointer border-0 bg-[var(--color-accent)] px-4.5 py-2.5 font-sans text-[13px] font-extrabold text-white no-underline"
                   >
                     {t('viewOffer')}

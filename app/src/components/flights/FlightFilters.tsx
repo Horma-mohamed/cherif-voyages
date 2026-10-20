@@ -9,6 +9,9 @@ export default function FlightFilters({
   onStopsChange,
   selectedAirlines,
   onToggleAirline,
+  maxPriceMru,
+  priceCeiling,
+  onMaxPriceChange,
   onClear
 }: {
   airlines: { name: string; priceMru: number }[];
@@ -16,6 +19,9 @@ export default function FlightFilters({
   onStopsChange: (stops: StopsFilter) => void;
   selectedAirlines: Set<string>;
   onToggleAirline: (name: string, checked: boolean) => void;
+  maxPriceMru: number;
+  priceCeiling: number;
+  onMaxPriceChange: (value: number) => void;
   onClear: () => void;
 }) {
   const t = useTranslations('Flights.filters');
@@ -43,9 +49,25 @@ export default function FlightFilters({
         </label>
       ))}
 
+      <div className="mb-2 mt-4.5 text-[11px] uppercase tracking-[0.09em] text-[rgba(15,17,21,0.5)]">
+        {t('priceTitle')}
+      </div>
+      <input
+        type="range"
+        min={9000}
+        max={priceCeiling}
+        value={maxPriceMru}
+        onChange={(e) => onMaxPriceChange(Number(e.target.value))}
+        className="mb-1 w-full accent-[var(--color-accent)]"
+      />
+      <div className="mb-4.5 flex justify-between text-[12px] text-[rgba(15,17,21,0.55)]">
+        <span>{t('priceMin')}</span>
+        <span>{maxPriceMru.toLocaleString('fr-FR')} MRU</span>
+      </div>
+
       {airlines.length > 0 && (
         <>
-          <div className="mb-2 mt-4.5 text-[11px] uppercase tracking-[0.09em] text-[rgba(15,17,21,0.5)]">
+          <div className="mb-2 text-[11px] uppercase tracking-[0.09em] text-[rgba(15,17,21,0.5)]">
             {t('airlinesTitle')}
           </div>
           {airlines.map((airline) => (
@@ -64,6 +86,18 @@ export default function FlightFilters({
           ))}
         </>
       )}
+
+      <div className="mb-2 mt-4.5 text-[11px] uppercase tracking-[0.09em] text-[rgba(15,17,21,0.5)]">
+        {t('baggageTitle')}
+      </div>
+      <label className="mb-1.75 flex cursor-pointer text-[13px]">
+        <input type="checkbox" className="me-2 accent-[var(--color-accent)]" defaultChecked />
+        {t('baggageIncluded')}
+      </label>
+      <label className="flex cursor-pointer text-[13px]">
+        <input type="checkbox" className="me-2 accent-[var(--color-accent)]" />
+        {t('zamzam')}
+      </label>
     </aside>
   );
 }

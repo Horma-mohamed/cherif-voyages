@@ -11,7 +11,12 @@ function destinationCode(id: string): string {
   return id.replace('dest-', '').toUpperCase();
 }
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams
+}: {
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
+  const hubParams = await searchParams;
   const [t, tc, locale, packages] = await Promise.all([
     getTranslations('Home'),
     getTranslations('Common'),
@@ -38,7 +43,7 @@ export default async function HomePage() {
             {t('heroTitle')}
           </h1>
           <p className="mb-6 text-[15px] text-[rgba(15,17,21,0.6)]">{t('heroSubtitle')}</p>
-          <SearchHub />
+          <SearchHub initialParams={hubParams} />
         </div>
       </section>
 
@@ -96,7 +101,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-[1180px]">
           <div className="mb-6 flex flex-wrap items-baseline justify-between gap-4">
             <h2 className="text-[clamp(26px,3.4vw,38px)] text-white">{t('packagesTitle')}</h2>
-            <Link href="/packages/omra-ramadan" className="uline text-[13px] text-[#cfdeef] no-underline">
+            <Link href="/packages?kind=omra" className="uline text-[13px] text-[#cfdeef] no-underline">
               {t('packagesFull')}
             </Link>
           </div>
